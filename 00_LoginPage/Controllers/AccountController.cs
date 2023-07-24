@@ -89,7 +89,7 @@ namespace _00_LoginPage.Controllers
             var authProperties = new AuthenticationProperties
             {
                 // Set the expiration time as needed
-                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30),
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(115),
                 IsPersistent = true,
                 AllowRefresh = true
             };

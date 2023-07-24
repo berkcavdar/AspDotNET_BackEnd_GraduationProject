@@ -1,4 +1,5 @@
 ﻿using _00_LoginPage.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,13 +16,13 @@ namespace _00_LoginPage.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if(HttpContext.Request.Cookies.TryGetValue(".AspNetCore." + CookieAuthenticationDefaults.AuthenticationScheme, out string? value))
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
