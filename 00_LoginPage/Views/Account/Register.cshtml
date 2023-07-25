@@ -1,4 +1,5 @@
 ﻿@model _00_LoginPage.Models.UserModel
+        @*
         <h1>
             Kullanıcı Kayıtı
         </h1>
@@ -101,10 +102,54 @@
                                     </table>
                                 </td>
                             </tr>
-                            @*<tr>
+                            <tr>
                                 <td colspan="2" class="mt-5">
                                     @Html.ValidationMessageFor(model => model.SuccessMessage,null,new{@class = "alert alert-success"})
                                 </td>
-                            </tr>*@
+                            </tr>
                         </table>
-        }
+        } 
+        *@
+<div class="wrapper container">
+    <div class="row title">
+        Üye Olunuz
+    </div>
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        <form class="row" asp-action="Register">
+            <div class="field">
+                <input asp-for="FirstName" type="text" required>
+                <label asp-for="FirstName">Adınız</label>
+            </div>
+            <div class="field">
+                <input asp-for="LastName" type="text" required>
+                <label asp-for="LastName">Soyadınız</label>
+            </div>
+            <div class="field">
+                <input asp-for="Email" type="email" required>
+                <label asp-for="Email">E-Mail</label>
+            </div>
+            <div class="field">
+                <input asp-for="Password" type="password" required>
+                <label asp-for="Password">Parola</label>
+            </div>
+            <div class="field">
+                <input asp-for="ConfirmPassword" type="password" required>
+                <label asp-for="ConfirmPassword">Parola Onayı</label>
+            </div>
+            <div class="content">
+                <div class="pass-link">
+                    <a asp-action="Login" asp-controller="Account">Bir hesabınız var mı?</a>
+                </div>
+            </div>
+            <div class="field">
+                <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">
+                Üye Değil Misiniz? <a asp-action="Register" asp-controller="Account">Şimdi Kayıt Ol</a>
+            </div>
+        </form>
+    }
+
+</div>

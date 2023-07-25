@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Login";
 }
-
+@*
 <fieldset>
     <legend>
         Kullanıcı Girişi
@@ -64,4 +64,40 @@
 
         </table>
     }
-</fieldset>
+</fieldset>*@
+
+<div class="wrapper container">
+    <div class="row title">
+        Kullanıcı Girişi
+    </div>
+
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    { 
+        <form class="row" action="#">
+            <div class="field">
+                <input asp-for="Email" type="text" required>
+                <label asp-for="Email">Email Address</label>
+            </div>
+            <div class="field">
+                <input asp-for="Password" type="password" required>
+                <label asp-for="Password" >Password</label>
+            </div>
+            <div class="content">
+                <div class="checkbox">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <div class="pass-link">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+            <div class="field">
+                <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">
+                Üye Değil Misiniz? <a asp-action="Register" asp-controller="Account">Şimdi Kayıt Ol</a>
+            </div>
+        </form>
+    }
+
+</div>
