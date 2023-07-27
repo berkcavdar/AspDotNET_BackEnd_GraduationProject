@@ -1,9 +1,22 @@
-﻿@model _00_LoginPage.Models.UserViewModel
+﻿@model _00_LoginPage.ViewModeels.LoginViewModel
 
 <div class="wrapper container">
     <div class="row title">
         Üye Olunuz
     </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <ul>
+            @foreach (var modelState in ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    }
 
     @using (Html.BeginForm("Register", "Account", FormMethod.Post))
     {

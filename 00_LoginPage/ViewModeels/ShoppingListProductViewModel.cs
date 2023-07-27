@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace _00_LoginPage.Models
+namespace _00_LoginPage.ViewModeels
 {
     public class ShoppingListProductViewModel
     {

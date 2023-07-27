@@ -1,8 +1,8 @@
-﻿using _00_LoginPage.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using _00_LoginPage.ViewModeels;
 
 namespace _00_LoginPage.Controllers
 {

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using _00_LoginPage.Models;
 
-namespace _00_LoginPage.Models
+namespace _00_LoginPage.ViewModeels
 {
     public class CategoryViewModel : BaseEntity
     {

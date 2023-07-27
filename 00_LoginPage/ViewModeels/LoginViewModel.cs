@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using _00_LoginPage.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace _00_LoginPage.Models
+namespace _00_LoginPage.ViewModeels
 {
     public class LoginViewModel : BaseEntity
     {
-        [Required(ErrorMessage ="Email doldurulması gereklidir.")]
+        [Required(ErrorMessage = "Email doldurulması gereklidir.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Parola doldurulması gereklidir.")]
