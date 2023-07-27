@@ -1,115 +1,5 @@
-﻿@model _00_LoginPage.Models.UserModel
-        @*
-        <h1>
-            Kullanıcı Kayıtı
-        </h1>
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-        {
-                        <table>
-                            <tr>
-                                <td>
-                                    @Html.LabelFor(model => model.FirstName)
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(model => model.FirstName)
-                                </td>
-                            </tr>
+﻿@model _00_LoginPage.Models.UserViewModel
 
-                            <tr>
-                                <td></td>
-                                <td>
-                                    @Html.ValidationMessageFor(model => model.FirstName, null, new{ @class="text text-danger"})
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    @Html.LabelFor(model => model.LastName)
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(model => model.LastName)
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td></td>   
-                                <td>
-                                    @Html.ValidationMessageFor(model => model.LastName, null, new{ @class="text text-danger"})
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    @Html.LabelFor(model => model.Email)
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(model => model.Email)
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td></td>
-                                <td>
-                                    @Html.ValidationMessageFor(model => model.Email, null, new{ @class="text text-danger"})
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    @Html.LabelFor(model => model.Password)
-                                </td>
-                                <td>
-                                    @Html.PasswordFor(model => model.Password)
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td></td>
-                                <td>
-                                    @Html.ValidationMessageFor(model => model.Password, null, new{ @class="text text-danger"})
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    @Html.LabelFor(model => model.ConfirmPassword)
-                                </td>
-                                <td>
-                                    @Html.PasswordFor(model => model.ConfirmPassword)
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td></td>
-                                <td>
-                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new{ @class="text text-danger"})
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                </td>
-                                <td>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <input type="submit" value="Kayıt Ol">
-                                            </td>
-                                            <td>
-                                                <input type="reset" value="Parolayı Temizle">
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="mt-5">
-                                    @Html.ValidationMessageFor(model => model.SuccessMessage,null,new{@class = "alert alert-success"})
-                                </td>
-                            </tr>
-                        </table>
-        } 
-        *@
 <div class="wrapper container">
     <div class="row title">
         Üye Olunuz
@@ -117,7 +7,6 @@
 
     @using (Html.BeginForm("Register", "Account", FormMethod.Post))
     {
-        <form class="row" asp-action="Register">
             <div class="field">
                 <input asp-for="FirstName" type="text" required>
                 <label asp-for="FirstName">Adınız</label>
@@ -144,12 +33,11 @@
                 </div>
             </div>
             <div class="field">
-                <input type="submit" value="Login">
+                <input type="submit" asp-controller="Account" asp-action="Register" value="Kayıt Ol">
             </div>
             <div class="signup-link">
                 Üye Değil Misiniz? <a asp-action="Register" asp-controller="Account">Şimdi Kayıt Ol</a>
             </div>
-        </form>
     }
 
 </div>

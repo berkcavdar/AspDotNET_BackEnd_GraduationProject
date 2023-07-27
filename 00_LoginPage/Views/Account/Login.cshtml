@@ -1,4 +1,4 @@
-﻿@model _00_LoginPage.Models.LoginModel
+﻿@model _00_LoginPage.Models.LoginViewModel
 @{
     ViewBag.Title = "Login";
 }
@@ -73,7 +73,6 @@
 
     @using (Html.BeginForm("Login", "Account", FormMethod.Post))
     { 
-        <form class="row" action="#">
             <div class="field">
                 <input asp-for="Email" type="text" required>
                 <label asp-for="Email">Email Address</label>
@@ -92,12 +91,11 @@
                 </div>
             </div>
             <div class="field">
-                <input type="submit" value="Login">
+                <input type="submit" asp-action="Login" asp-controller="Account" value="Login">
             </div>
             <div class="signup-link">
                 Üye Değil Misiniz? <a asp-action="Register" asp-controller="Account">Şimdi Kayıt Ol</a>
             </div>
-        </form>
     }
 
 </div>

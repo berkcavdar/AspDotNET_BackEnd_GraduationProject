@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace _00_LoginPage.Models
 {
-    public class LoginModel
+    public class LoginViewModel : BaseEntity
     {
         [Required(ErrorMessage ="Email doldurulması gereklidir.")]
         public string Email { get; set; }

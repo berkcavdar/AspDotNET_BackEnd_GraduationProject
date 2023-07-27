@@ -8,7 +8,15 @@ namespace _00_LoginPage.Controllers
 {
     public class AccountController : Controller
     {
-        UserDbContext userDbContext = new UserDbContext();
+        private readonly ILogger<AccountController> _logger;
+        private readonly UserDbContext _userDbContext;
+        public AccountController(ILogger<AccountController> logger, UserDbContext userDbContext)
+        {
+            _logger = logger;
+            _userDbContext = userDbContext;
+
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -16,13 +24,14 @@ namespace _00_LoginPage.Controllers
 
         public IActionResult Register()
         {
-            UserModel userModel = new UserModel();
+            UserViewModel userModel = new UserViewModel();
             return View(userModel);
         }
 
         [HttpPost]
-        public IActionResult Register(UserModel userModel)
+        public IActionResult Register(UserViewModel userModel)
         {
+            _logger.LogInformation("usermodel: {0}", userModel.Password);
             // 1. Validate User Input
             //if ( !(userModel.Password.Any(x => char.IsUpper(x) && char.IsLower(x) && char.IsDigit(x)) && userModel.Password.Length < 8))
             //{
@@ -32,7 +41,7 @@ namespace _00_LoginPage.Controllers
             //}
 
             // 1. Validate User Input - Passoword should containm 1 uppercase, 1 lowercase, 1 digit and at least 8 letters
-            
+
             if (!(userModel.Password.Any(x => char.IsUpper(x)) && userModel.Password.Any(x => char.IsLower(x)) && userModel.Password.Any(x => char.IsDigit(x)) && userModel.Password.Length >= 8))
             {
                 // Send an error message
@@ -52,8 +61,8 @@ namespace _00_LoginPage.Controllers
             user.CreatedOn = DateTime.Now;
 
             // 3. Save this user to the database
-            //userDbContext.Users.Add(user);  
-            //userDbContext.SaveChanges();
+            _userDbContext.Users.Add(user);
+            _userDbContext.SaveChanges();
 
             // 4. Redirect user to the "account/login" page
 
@@ -66,9 +75,9 @@ namespace _00_LoginPage.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel login)
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
-            var user = userDbContext.Users.FirstOrDefault(x => x.Email == login.Email && x.Password == login.Password);
+            var user = _userDbContext.Users.FirstOrDefault(x => x.Email == login.Email && x.Password == login.Password);
 
             if(user == null)
             {
@@ -97,7 +106,7 @@ namespace _00_LoginPage.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), authProperties);
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

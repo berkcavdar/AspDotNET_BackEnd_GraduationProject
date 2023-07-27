@@ -2,11 +2,8 @@
 
 namespace _00_LoginPage.Models
 {
-    public class UserModel
+    public class UserViewModel : BaseEntity
     {
-        //Primary-Key
-        public int Id { get; set; }
-
         //İsim
         [Required(AllowEmptyStrings = false, ErrorMessage ="Adınızı girmeniz gerekmektedir.")]
         [Display(Name = "Ad: ")]
