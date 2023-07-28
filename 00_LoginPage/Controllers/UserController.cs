@@ -15,7 +15,7 @@ namespace _00_LoginPage.Controllers
             _userDbContext = userDbContext;
 
         }
-        public IActionResult Index()
+        public IActionResult Index([FromQuery(Name = "userId")] int userId)
         {
             IReadOnlyList<ShoppingList> ShoppingList = (from shoplist in _userDbContext.ShoppingLists
                                                      select new ShoppingList()
