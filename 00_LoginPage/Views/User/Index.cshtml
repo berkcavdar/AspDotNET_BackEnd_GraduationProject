@@ -1,0 +1,25 @@
+﻿@model ICollection<_00_LoginPage.Models.ShoppingList>
+
+<div>
+    <a asp-action="Create" asp-controller="User">Yeni Alışeriş Listesi Oluştur</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                Liste Adı   
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                        <a asp-controller="" asp-route-shoppinglistid="@item.Id">
+                            Alişveriş liste için tıklayınız.
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

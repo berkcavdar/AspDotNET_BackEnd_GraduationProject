@@ -1,0 +1,23 @@
+﻿@model _00_LoginPage.Models.InsertModel.Models.ShoppingListInsertModel
+
+<div class="wrapper container">
+    <div class="row title">
+        Yeni Sipariş Listesi Oluştur
+    </div>
+
+
+    @using (Html.BeginForm("Create", "User", FormMethod.Post))
+    {
+        <div class="field">
+            <input asp-for="Name" type="text" required>
+            <label asp-for="Name">Liste Adı</label>
+        </div>
+        <div class="field">
+            <input type="submit" asp-controller="User" asp-action="Index" value="Kayıt Ol">
+        </div>
+        <div class="signup-link">
+            <a asp-action="Index" asp-controller="User">Liste Sayfasına Geri Dön</a>
+        </div>
+    }
+
+</div>
