@@ -1,4 +1,4 @@
-namespace _00_LoginPage.ViewModeels
+namespace _00_LoginPage.Models
 {
     public class ErrorViewModel
     {

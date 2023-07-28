@@ -2,13 +2,13 @@
 
 namespace _00_LoginPage.Models;
 
-public class ShoppingListProduct
+public class ShoppingListProduct : BaseEntity
 {
+    public new int Id { get; set; }
+
     public new string Name { get; set; } = null!;
 
     public int ProductId { get; set; }
-
-
 
     public int Amount { get; set; }
 
@@ -17,7 +17,7 @@ public class ShoppingListProduct
     public bool IsAddedToCart { get; set; }
 
     // Relations
-    [ForeignKey(nameof(ShoppingListId))]
+    [ForeignKey(nameof(ShoppingListId))]    
     public virtual ShoppingList ShoppingList { get; set; }
 
     [ForeignKey(nameof(ProductId))]

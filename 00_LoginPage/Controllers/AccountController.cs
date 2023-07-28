@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using _00_LoginPage.ViewModeels;
+using _00_LoginPage.Context;
+using _00_LoginPage.Models;
 
 namespace _00_LoginPage.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly UserDbContext _userDbContext;
-        public AccountController(ILogger<AccountController> logger, UserDbContext userDbContext)
+        private readonly ShoppingDbContext _userDbContext;
+        public AccountController(ILogger<AccountController> logger, ShoppingDbContext userDbContext)
         {
             _logger = logger;
             _userDbContext = userDbContext;
@@ -53,12 +55,11 @@ namespace _00_LoginPage.Controllers
 
             User user = new User();
 
-            user.UserId = userModel.Id;
+            user.Id = userModel.Id;
             user.FirstName = userModel.FirstName;
             user.LastName = userModel.LastName;
             user.Email = userModel.Email;
             user.Password = userModel.Password;
-            user.CreatedOn = DateTime.Now;
 
             // 3. Save this user to the database
             _userDbContext.Users.Add(user);

@@ -1,4 +1,5 @@
 using _00_LoginPage;
+using _00_LoginPage.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,7 @@ builder.Services.AddAuthorization(option =>
     option.AddPolicy("user", policy => policy.RequireRole("user", "admin"));
 });
 
-builder.Services.AddDbContext<UserDbContext>(options =>
+builder.Services.AddDbContext<ShoppingDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });

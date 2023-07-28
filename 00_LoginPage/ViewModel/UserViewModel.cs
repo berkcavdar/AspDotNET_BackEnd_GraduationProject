@@ -31,9 +31,9 @@ namespace _00_LoginPage.ViewModeels
         public string ConfirmPassword { get; set; }
 
         //Oluşturulduğu Tarih
-        public DateTime CreatedOn { get; set; }
+        //public DateTime CreatedOn { get; set; }
 
-        public string? SuccessMessage { get; set; }
+        //public string? SuccessMessage { get; set; }
 
     }
 }

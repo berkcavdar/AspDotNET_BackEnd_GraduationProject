@@ -10,6 +10,7 @@ public class ShoppingList : BaseEntity
     public int UserId { get; set; }
 
     // Relations
-    public virtual ICollection<ShoppingListProduct> Products { get; set; }
+    public virtual ICollection<ShoppingListProduct> ShoppingListProducts { get; set; }
     public virtual User User { get; set; }
+    //public object ShoppingListProduct { get; internal set; } 
 }
