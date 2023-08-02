@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace _00_LoginPage.Controllers
 {
@@ -16,7 +17,8 @@ namespace _00_LoginPage.Controllers
 
         public IActionResult Index()
         {
-            if(HttpContext.Request.Cookies.TryGetValue(".AspNetCore." + CookieAuthenticationDefaults.AuthenticationScheme, out string? value))
+
+            if (HttpContext.Request.Cookies.TryGetValue(".AspNetCore." + CookieAuthenticationDefaults.AuthenticationScheme, out string? value))
             {
                 return View();
             }

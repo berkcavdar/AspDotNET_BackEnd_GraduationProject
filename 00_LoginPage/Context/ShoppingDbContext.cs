@@ -34,7 +34,7 @@ public class ShoppingDbContext : DbContext
         modelBuilder.Entity<Category>(c => c.HasIndex(x => x.Name).IsUnique());
         modelBuilder.Entity<Category>(c => c.Property(p => p.Name).IsRequired());
         modelBuilder
-            .Entity<Category>(c => c.HasMany(p => p.Products)
+            .Entity<Category>(c => c.HasMany(x => x.Products)
             .WithOne(x => x.Category)
             .HasForeignKey(x => x.CategoryId));
         #endregion

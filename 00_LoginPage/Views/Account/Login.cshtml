@@ -1,38 +1,97 @@
 ﻿@model _00_LoginPage.ViewModeels.LoginViewModel
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Giriş Yap";
 }
 
-<div class="wrapper container">
-    <div class="row title">
-        Kullanıcı Girişi
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <script nonce="07a2c68d-f6d5-4c00-b2a3-9d6127a9f02c">(function (w, d) { !function (bt, bu, bv, bw) { bt[bv] = bt[bv] || {}; bt[bv].executed = []; bt.zaraz = { deferred: [], listeners: [] }; bt.zaraz.q = []; bt.zaraz._f = function (bx) { return function () { var by = Array.prototype.slice.call(arguments); bt.zaraz.q.push({ m: bx, a: by }) } }; for (const bz of ["track", "set", "debug"]) bt.zaraz[bz] = bt.zaraz._f(bz); bt.zaraz.init = () => { var bA = bu.getElementsByTagName(bw)[0], bB = bu.createElement(bw), bC = bu.getElementsByTagName("title")[0]; bC && (bt[bv].t = bu.getElementsByTagName("title")[0].text); bt[bv].x = Math.random(); bt[bv].w = bt.screen.width; bt[bv].h = bt.screen.height; bt[bv].j = bt.innerHeight; bt[bv].e = bt.innerWidth; bt[bv].l = bt.location.href; bt[bv].r = bu.referrer; bt[bv].k = bt.screen.colorDepth; bt[bv].n = bu.characterSet; bt[bv].o = (new Date).getTimezoneOffset(); if (bt.dataLayer) for (const bG of Object.entries(Object.entries(dataLayer).reduce(((bH, bI) => ({ ...bH[1], ...bI[1] })), {}))) zaraz.set(bG[0], bG[1], { scope: "page" }); bt[bv].q = []; for (; bt.zaraz.q.length;) { const bJ = bt.zaraz.q.shift(); bt[bv].q.push(bJ) } bB.defer = !0; for (const bK of [localStorage, sessionStorage]) Object.keys(bK || {}).filter((bM => bM.startsWith("_zaraz_"))).forEach((bL => { try { bt[bv]["z_" + bL.slice(7)] = JSON.parse(bK.getItem(bL)) } catch { bt[bv]["z_" + bL.slice(7)] = bK.getItem(bL) } })); bB.referrerPolicy = "origin"; bB.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(bt[bv]))); bA.parentNode.insertBefore(bB, bA) };["complete", "interactive"].includes(bu.readyState) ? zaraz.init() : bt.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document);</script>
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                {
+                    <form class="login100-form validate-form">
+                        <span class="login100-form-title p-b-49">
+                            Giriş Yap
+                        </span>
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
+                            <span class="label-input100">Email</span>
+                            <input class="input100" type="text" asp-for="Email" placeholder="Email adresinizi giriniz" required>
+                            <span class="focus-input100" data-symbol="&#xf206;"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Password is required">
+                            <span class="label-input100">Parola</span>
+                            <input class="input100" type="password" asp-for="Password" placeholder="Parolanızı giriniz" required>
+                            <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        </div>
+                        <div class="text-right p-t-8 p-b-31">
+                            <a href="#">
+                                Şifrenizi mi unuttunuz?
+                            </a>
+                        </div>
+                        <div class="container-login100-form-btn">
+                            <div class="wrap-login100-form-btn">
+                                <div class="login100-form-bgbtn"></div>
+                                <button type="submit" asp-action="Login" asp-controller="Account" class="login100-form-btn">
+                                    Oturum Açın
+                                </button>
+                            </div>
+                        </div>
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <span class="text-center text-danger">
+                                @foreach (var modelState in ViewData.ModelState.Values)
+                                {
+                                    foreach (var error in modelState.Errors)
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                }
+                            </span>
+                        }
+                        <div class="flex-col-c p-t-155">
+                            <span class="txt1 p-b-17">
+                                Henüz bir hesabınız yok mu?
+                            </span>
+                            <a asp-action="Register" asp-controller="Account" class="txt2">
+                                Şimdi Kayıt Ol
+                            </a>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
     </div>
+    <div id="dropDownSelect1"></div>
 
-    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
-    { 
-            <div class="field">
-                <input asp-for="Email" type="text" required>
-                <label asp-for="Email">Email Address</label>
-            </div>
-            <div class="field">
-                <input asp-for="Password" type="password" required>
-                <label asp-for="Password" >Password</label>
-            </div>
-            <div class="content">
-                <div class="checkbox">
-                    <input type="checkbox" id="remember-me">
-                    <label for="remember-me">Remember me</label>
-                </div>
-                <div class="pass-link">
-                    <a href="#">Forgot password?</a>
-                </div>
-            </div>
-            <div class="field">
-                <input type="submit" asp-action="Login" asp-controller="Account" value="Login">
-            </div>
-            <div class="signup-link">
-                Üye Değil Misiniz? <a asp-action="Register" asp-controller="Account">Şimdi Kayıt Ol</a>
-            </div>
-    }
+    <script src="~/vendor/jquery/jquery-3.2.1.min.js"></script>
 
-</div>
+    <script src="~/vendor/animsition/js/animsition.min.js"></script>
+
+    <script src="~/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="~/vendor/select2/select2.min.js"></script>
+
+    <script src="~/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <script src="~/vendor/countdowntime/countdowntime.js"></script>
+
+    <script src="~/js/main.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854" integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg==" data-cf-beacon='{"rayId":"7f0ed49a5d2fda22","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2023.7.0","si":100}' crossorigin="anonymous"></script>
+</body>
+</html>

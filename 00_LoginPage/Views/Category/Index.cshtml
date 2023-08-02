@@ -1,0 +1,91 @@
+﻿@model ICollection<_00_LoginPage.ViewModeels.CategoryViewModel>
+@{
+    ViewBag.Title = "Kategori";
+}
+@*
+<div class="container">
+    <div class="row">
+        <a asp-action="Create" asp-controller="Category">Yeni Kategori Listesi Oluştur</a>
+    </div>
+    <div class="row">
+        <table>
+            <thead>
+                <tr>
+                    Liste Adı
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Index" asp-route-id="@item.Id" class="btn btn-primary">
+                                Ürünleri Düzenle
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="Category" asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary">
+                                Değiştir
+                            </a>
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "Category", new { id = item.Id }, FormMethod.Post))
+                            {
+                            <input type="submit" value="Sil">                                
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Index" asp-route-id="@item.Id" class="btn btn-primary">
+                                Kategoriye ait ürünleri incele
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
+
+<div class="conatiner">
+	<div class="wrap">
+        @foreach(var item in Model)
+        {
+            <div class="box one m-4">
+                <h2 class="mt-2">@item.Name</h2>
+                <img class="card-img-top mt-1" src="@Url.Content(item.ImageUrl)">
+                <div class="container-login100-form-btn m-1">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button type="submit" asp-action="Index" asp-controller="Product" class="login100-form-btn">
+                            <a class="login100-form-btn" asp-controller="Product" asp-action="Index" asp-route-categoryid="@item.Id">
+                                Ürünleri Düzenle
+                            </a>
+                        </button>
+                    </div>
+                </div>
+                <div class="container-login100-form-btn m-2">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button type="submit" asp-action="Update" asp-controller="Category" class="login100-form-btn">
+                            <a asp-controller="Category" class="login100-form-btn" asp-action="Update" asp-route-id="@item.Id">
+                                Değiştir
+                            </a>
+                        </button>
+                    </div>
+                </div>
+                <div class="container-login100-form-btn m-3">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                            @using (Html.BeginForm("Delete", "Category", new { id = item.Id }, FormMethod.Post))
+                            {
+                            <button type="submit"  class="login100-form-btn">
+                                Sil
+                            </button>
+                            }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

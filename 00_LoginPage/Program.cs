@@ -1,6 +1,7 @@
 using _00_LoginPage;
 using _00_LoginPage.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "EmployeeOrders",
+    pattern: "{name}-{surname}-siparisleri-{id}",
+    defaults: new { controller = "Category", action = "Index" });
 
 app.MapControllerRoute(
     name: "default",

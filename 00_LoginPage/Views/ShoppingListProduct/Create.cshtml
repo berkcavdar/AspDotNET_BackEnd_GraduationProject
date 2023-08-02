@@ -1,0 +1,41 @@
+﻿@model _00_LoginPage.Models.InsertModel.Models.ShoppingListProductInsertModel
+@{
+    ViewBag.Title = "Listeme Ürün Ekle";
+}
+
+@using (Html.BeginForm("Create", "ShoppingListProduct", FormMethod.Post))
+{
+    <div class="conatiner">
+        <div class="wrap">
+            <div class="box one m-5">
+                <div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
+                    <span class="label-input100">Açıklama</span>
+                    <input class="input100" type="text" asp-for="Description" placeholder="Ürün Açıklaması" required>
+                    <span class="focus-input100" data-symbol="&#xf1db;"></span>
+                </div>
+                <input class="input100 mt-5 text-center" type="number" asp-for="Amount" placeholder="Miktarı Giriniz" required>
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            @Html.HiddenFor( x => x.ProductId)
+                            <button type="submit" asp-action="Create" asp-controller="ShoppingListProduct" class="login100-form-btn">
+                                Oluştur
+                            </button>
+                        </div>
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <span class="text-center text-danger">
+                                @foreach (var modelState in ViewData.ModelState.Values)
+                                {
+                                    foreach (var error in modelState.Errors)
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                }
+                            </span>
+                        }
+                </div>
+            </div>
+        </div>
+    </div>
+}

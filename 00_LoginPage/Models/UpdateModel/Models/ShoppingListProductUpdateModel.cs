@@ -10,6 +10,8 @@
 
         public int ShoppingListId { get; set; }
 
+        public string Description { get; set; }
+
         public bool IsAddedToCart { get; set; }
 
     }

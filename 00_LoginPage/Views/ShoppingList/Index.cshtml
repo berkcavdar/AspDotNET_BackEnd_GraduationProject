@@ -1,0 +1,67 @@
+﻿@model ICollection<_00_LoginPage.ViewModeels.ShoppingListViewModel>
+@{
+    ViewBag.Title = "Sipariş Listelerim";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/productList.css">
+<section class="vh-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center  h-100">
+            <div class="col-md-12 col-xl-10">
+
+                <div class="card mask-custom">
+                    <div class="card-body p-4 text-black">
+
+                        <div class="text-center pt-3 pb-2">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-todo-list/check1.webp"
+                                 alt="Check" width="60">
+                            <h2 class="my-4">Sipariş Listelerim</h2>
+                        </div>
+
+                        <table class="table text-black mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ad</th>
+                                    <th scope="col">Eylemler</th>
+                                    <th scope="col">Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    <tr class="fw-normal">
+                                        <th>
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                                 alt="avatar 1" style="width: 45px; height: auto;">
+                                            <a asp-action="Index" asp-controller="ShoppingListProduct" asp-route-shoppinglistid="@item.Id" ><span class="ms-2">@item.Name</span></a>
+                                        </th>
+                                        <td class="align-middle">
+                                            @using (Html.BeginForm("Delete", "ShoppingList", new { id = item.Id }, FormMethod.Post))
+                                            {
+                                                <button type="submit" class="btn btn-outline-danger">Sil</button>
+                                            }
+                                        </td>
+                                        <td class="align-middle">
+                                            @using (Html.BeginForm("Index", "ShoppingList", FormMethod.Post))
+                                            {
+                                                <div class="form-check">
+                                                    <input class="form-check-input mt-2" type="checkbox" asp-for="@item.IsEditable">
+                                                    <label class="form-check-label align-middle" asp-for="@item.IsEditable">Alışverişe Çıkıyorum</label>
+                                                    <button type="submit" class="btn btn-primary align-middle ml-5">Değişikleri Kaydet</button>
+                                                    <a asp-action="UserProducts" asp-controller="Product" asp-route-shoppinglistid="@item.Id">Ekle</a>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

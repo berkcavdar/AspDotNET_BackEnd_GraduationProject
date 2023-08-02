@@ -1,4 +1,6 @@
-﻿namespace _00_LoginPage.Models.InsertModel.Models
+﻿using _00_LoginPage.ViewModeels;
+
+namespace _00_LoginPage.Models.InsertModel.Models
 {
     public class ShoppingListProductInsertModel
     {
@@ -7,5 +9,8 @@
         public int Amount { get; set; }
 
         public int ShoppingListId { get; set; }
+
+        public string Description { get; set; }
+
     }
 }

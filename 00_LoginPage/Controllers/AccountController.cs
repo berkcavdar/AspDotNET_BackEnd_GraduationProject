@@ -5,6 +5,10 @@ using System.Security.Claims;
 using _00_LoginPage.ViewModeels;
 using _00_LoginPage.Context;
 using _00_LoginPage.Models;
+using System.Net;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace _00_LoginPage.Controllers
 {
@@ -12,11 +16,12 @@ namespace _00_LoginPage.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly ShoppingDbContext _userDbContext;
+        private readonly string _cookieName;
         public AccountController(ILogger<AccountController> logger, ShoppingDbContext userDbContext)
         {
             _logger = logger;
             _userDbContext = userDbContext;
-
+            _cookieName = ".AspNetCore." + CookieAuthenticationDefaults.AuthenticationScheme;
         }
 
         public IActionResult Index()
@@ -24,14 +29,15 @@ namespace _00_LoginPage.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
-            UserViewModel userModel = new UserViewModel();
+            RegisterViewModel userModel = new RegisterViewModel();
             return View(userModel);
         }
 
         [HttpPost]
-        public IActionResult Register(UserViewModel userModel)
+        public IActionResult Register(RegisterViewModel userModel)
         {
             _logger.LogInformation("usermodel: {0}", userModel.Password);
             // 1. Validate User Input
@@ -47,7 +53,7 @@ namespace _00_LoginPage.Controllers
             if (!(userModel.Password.Any(x => char.IsUpper(x)) && userModel.Password.Any(x => char.IsLower(x)) && userModel.Password.Any(x => char.IsDigit(x)) && userModel.Password.Length >= 8))
             {
                 // Send an error message
-                ModelState.AddModelError(key: "Password", errorMessage: "Password should contain an uppercase, lowercase and at least 8 letters.");
+                ModelState.AddModelError(key: "Password", errorMessage: "Parolanız en az bir küçük harf, bir büyük harf, bir rakam ve 8 haneden kısa olmamalıdır.");
                 return View(userModel);
             }
 
@@ -55,7 +61,6 @@ namespace _00_LoginPage.Controllers
 
             User user = new User();
 
-            user.Id = userModel.Id;
             user.FirstName = userModel.FirstName;
             user.LastName = userModel.LastName;
             user.Email = userModel.Email;
@@ -79,7 +84,7 @@ namespace _00_LoginPage.Controllers
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             var user = _userDbContext.Users.FirstOrDefault(x => x.Email == login.Email && x.Password == login.Password);
-
+            
             if(user == null)
             {
                 ModelState.AddModelError("Error", "Email veya paralonızı hatalı girdiniz.");
@@ -92,9 +97,11 @@ namespace _00_LoginPage.Controllers
                 //new Claim(ClaimTypes.Role, user.),
                 new Claim(ClaimTypes.Name, user.FirstName),
                 new Claim(ClaimTypes.Surname, user.LastName),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.IsAdmin ? "admin" : "user"),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
-
+            
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties
             {
@@ -109,5 +116,12 @@ namespace _00_LoginPage.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<ActionResult> LogOff()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
+        }
+
     }
 }

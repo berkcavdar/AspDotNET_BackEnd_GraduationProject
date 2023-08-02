@@ -12,5 +12,15 @@ public class ShoppingList : BaseEntity
     // Relations
     public virtual ICollection<ShoppingListProduct> ShoppingListProducts { get; set; }
     public virtual User User { get; set; }
-    //public object ShoppingListProduct { get; internal set; } 
+
+    private ShoppingList()
+    {
+        
+    }
+
+    public ShoppingList(string name, int userId)
+    {
+        UserId = userId;
+        Name = name;
+    }
 }

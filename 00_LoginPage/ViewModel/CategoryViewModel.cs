@@ -3,9 +3,13 @@ using _00_LoginPage.Models;
 
 namespace _00_LoginPage.ViewModeels
 {
-    public class CategoryViewModel : BaseEntity
+    public class CategoryViewModel 
     {
-        [ForeignKey("CategoryId")]
-        public virtual ProductViewModel Product { get; set; }
+        public int Id { get;  set; }
+
+        public string Name { get; set; }
+
+        public string ImageUrl { get; set; }
+
     }
 }
