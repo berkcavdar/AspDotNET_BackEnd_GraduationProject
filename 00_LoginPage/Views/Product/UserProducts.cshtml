@@ -5,6 +5,7 @@
 }
 
 <div class="conatiner">
+    <div class="back-to-shop"><a asp-action="Index" asp-controller="ShoppingList">&leftarrow;</a><span class="text-bold"><b>Sipariş Listelerime Geri Dön</b></span></div>
     <div class="wrap">
             @foreach (var item in Model)
             {
@@ -18,7 +19,7 @@
                             <div class="wrap-login100-form-btn">
                                 <div class="login100-form-bgbtn"></div>
                                 <button type="submit" asp-action="Create" asp-controller="ShoppingListProduct" class="login100-form-btn">
-                                    <a asp-controller="ShoppingListProduct" class="login100-form-btn" asp-action="Create" asp-route-shoppinglistid="@item.ShoppingListProductId">
+                                    <a asp-controller="ShoppingListProduct" class="login100-form-btn" asp-action="Create" asp-route-shoppinglistid="@item.ShoppingListId" asp-route-productid="@item.ProductId">
                                             Ekle
                                     </a>
                                 </button>
@@ -33,34 +34,5 @@
                     }
 
             }
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <button type="submit" asp-action="Create" asp-controller="ShoppingListProduct" class="login100-form-btn">
-                                    <a asp-controller="ShoppingListProduct" class="login100-form-btn" asp-action="Create" asp-route-shoppinglistid="">
-                                    Ekle
-                                    </a>
-                                    Ekle
-                                    </button>
-                                    <div class="form-group">
-                                    <label for="exampleformcontroltextarea1">açıklama</label>
-                                    <textarea class="form-control" id="exampleformcontroltextarea1" rows="3"></textarea>
-                                    <input class="input100" type="number"  placeholder="Miktar" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
     </div>
 </div>

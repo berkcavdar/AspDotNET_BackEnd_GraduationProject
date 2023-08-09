@@ -2,6 +2,23 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="d-flex justify-content-center align-items-center">Alışveriş Listesi Sitemize Hoş Geldiniz</h1>
+<link rel="stylesheet" type="text/css" href="~/css/mainPage.css">
+
+<div class="text-center justify-content-center mt-5">
+    <h1 class="d-flex justify-content-center align-items-center display-1 ">Alışveriş Listesi Sitemize Hoş Geldiniz</h1>
 </div>
+
+<div class="all mt-5">
+    <div class="left">
+        <a asp-action="Index" asp-controller="ShoppingList"><div class="text">Sipariş Listelerim</div></a>
+    </div>
+    <div class="center">
+        <div class="explainer"><span>Bana Gel</span></div>
+        <div class="text"></div>
+    </div>
+    <div class="right">
+        <a asp-action="Create" asp-controller="ShoppingList"><div class="text">Yeni Sipariş Listesi Oluştur</div></a>
+    </div>
+</div>
+
+<a href="https://github.com/berkcavdar" target="_blank" class="ref">🔗 Berk Çavdar</a>

@@ -1,6 +1,7 @@
 ﻿using _00_LoginPage.Context;
 using _00_LoginPage.Models;
 using _00_LoginPage.Models.InsertModel.Models;
+using _00_LoginPage.Models.UpdateModel.Models;
 using _00_LoginPage.ViewModeels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -29,48 +30,69 @@ namespace _00_LoginPage.Controllers
                 throw new ArgumentException();
             }
 
-            IReadOnlyList<ShoppingListViewModel> ShoppingList = (from shoppingList in _userDbContext.ShoppingLists
-                                                                join shoppingListProduct in _userDbContext.ShoppingListProducts
-                                                                    on shoppingList.Id equals shoppingListProduct.ShoppingListId
-                                                                into slp from shoppingListProduct in slp.DefaultIfEmpty()
-                                                                where shoppingList.UserId == int.Parse(userId.Value)
-                                                                select new ShoppingListViewModel()
-                                                                {
-                                                                    Id = shoppingList.Id,
-                                                                    Name = shoppingList.Name,
-                                                                    IsEditable = shoppingList.IsEditable,
-                                                                    Products = shoppingList.ShoppingListProducts.Select(x => new ShoppingListProductViewModel()
-                                                                    {
-                                                                        Id = x.Id,
-                                                                        Name = x.Name,
-                                                                        Amount = x.Amount,
-                                                                        IsAddedToCart = x.IsAddedToCart,
-                                                                        ShoppingListId = x.ShoppingListId,
-                                                                        Product = new ProductViewModel()
-                                                                        {
-                                                                            Id = x.ProductId,
-                                                                            Name = x.Product.Name,
-                                                                            Color = x.Product.Color,
-                                                                            Description = x.Product.Description,
-                                                                            ImageUrl = x.Product.ImageUrl,
-                                                                            Price = x.Product.Price,
-                                                                            Category = new CategoryViewModel()
-                                                                            {
-                                                                                Id = x.Product.Category.Id,
-                                                                                Name = x.Product.Category.Name,
-                                                                            }
-                                                                            
-                                                                        }
-                                                                    }).ToList(),
-                                                                }).ToList();
+            IEnumerable<ShoppingListViewModel> ShoppingList = (from shoppingList in _userDbContext.ShoppingLists
+                                                               join shoppingListProduct in _userDbContext.ShoppingListProducts
+                                                                   on shoppingList.Id equals shoppingListProduct.ShoppingListId
+                                                               into slp from shoppingListProduct in slp.DefaultIfEmpty()
+                                                               where shoppingList.UserId == int.Parse(userId.Value)
+                                                               select new ShoppingListViewModel()
+                                                               {
+                                                                   Id = shoppingList.Id,
+                                                                   Name = shoppingList.Name,
+                                                                   IsEditable = shoppingList.IsEditable,
+                                                                   Products = shoppingList.ShoppingListProducts.Select(x => new ShoppingListProductViewModel()
+                                                                   {
+                                                                       Id = x.Id,
+                                                                       Amount = x.Amount,
+                                                                       IsAddedToCart = x.IsAddedToCart,
+                                                                       ShoppingListId = x.ShoppingListId,
+                                                                       Product = new ProductViewModel()
+                                                                       {
+                                                                           Id = x.ProductId,
+                                                                           Name = x.Product.Name,
+                                                                           Color = x.Product.Color,
+                                                                           Description = x.Product.Description,
+                                                                           ImageUrl = x.Product.ImageUrl,
+                                                                           Price = x.Product.Price,
+                                                                           Category = new CategoryViewModel()
+                                                                           {
+                                                                               Id = x.Product.Category.Id,
+                                                                               Name = x.Product.Category.Name,
+                                                                           }
 
-            return View(ShoppingList);
+                                                                       }
+                                                                   }).ToList(),
+                                                               }).ToList();
+
+            var list = ShoppingList.DistinctBy(x => x.Id).ToList();
+
+            return View(list);
         }
 
         [HttpPost]
         public IActionResult Index(ShoppingListViewModel shoppingListViewModel)
         {
             var isEditable = shoppingListViewModel.IsEditable;
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult IsEditableToFalse(int id)
+        {
+            var appt = _userDbContext.ShoppingLists.Single(x => x.Id == id);
+            appt.IsEditable = false;
+            _userDbContext.ShoppingLists.Update(appt);
+            _userDbContext.SaveChanges();
+            return RedirectToAction("Index");   
+        }
+
+        [HttpPost]
+        public ActionResult IsEditableToTrue(int id)
+        {
+            var appt = _userDbContext.ShoppingLists.Single(x => x.Id == id);
+            appt.IsEditable = true;
+            _userDbContext.ShoppingLists.Update(appt);
+            _userDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
 

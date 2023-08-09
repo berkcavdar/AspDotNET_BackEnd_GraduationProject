@@ -17,10 +17,11 @@
                     <div class="container-login100-form-btn">
                         <div class="wrap-login100-form-btn">
                             <div class="login100-form-bgbtn"></div>
-                            @Html.HiddenFor( x => x.ProductId)
-                            <button type="submit" asp-action="Create" asp-controller="ShoppingListProduct" class="login100-form-btn">
-                                Oluştur
-                            </button>
+                        @Html.HiddenFor( x => x.ProductId)
+                        @Html.HiddenFor( x => x.ShoppingListId)
+                        <button type="submit" class="login100-form-btn">
+                            <a asp-route-shoppinglistid="@Model.ShoppingListId">Oluştur</a>
+                        </button>
                         </div>
                         @if (!ViewData.ModelState.IsValid)
                         {

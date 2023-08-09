@@ -1,4 +1,5 @@
 ﻿@model ICollection<_00_LoginPage.ViewModeels.ShoppingListViewModel>
+
 @{
     ViewBag.Title = "Sipariş Listelerim";
 }
@@ -22,8 +23,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Ad</th>
-                                    <th scope="col">Eylemler</th>
-                                    <th scope="col">Durum</th>
+                                    <th scope="col">Sil</th>
+                                    <th scope="col">Ürün Ekle</th>
+                                    <th scope="col" class="ml-5" >Durum</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,25 +33,56 @@
                                 {
                                     <tr class="fw-normal">
                                         <th>
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                            <img src="https://img.freepik.com/premium-vector/list-flat-illustration_183665-75.jpg?w=360"
                                                  alt="avatar 1" style="width: 45px; height: auto;">
                                             <a asp-action="Index" asp-controller="ShoppingListProduct" asp-route-shoppinglistid="@item.Id" ><span class="ms-2">@item.Name</span></a>
                                         </th>
                                         <td class="align-middle">
                                             @using (Html.BeginForm("Delete", "ShoppingList", new { id = item.Id }, FormMethod.Post))
                                             {
-                                                <button type="submit" class="btn btn-outline-danger">Sil</button>
+                                                <button type="submit" class="icon">
+                                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                                </button>
                                             }
                                         </td>
                                         <td class="align-middle">
-                                            @using (Html.BeginForm("Index", "ShoppingList", FormMethod.Post))
-                                            {
                                                 <div class="form-check">
-                                                    <input class="form-check-input mt-2" type="checkbox" asp-for="@item.IsEditable">
-                                                    <label class="form-check-label align-middle" asp-for="@item.IsEditable">Alışverişe Çıkıyorum</label>
-                                                    <button type="submit" class="btn btn-primary align-middle ml-5">Değişikleri Kaydet</button>
-                                                    <a asp-action="UserProducts" asp-controller="Product" asp-route-shoppinglistid="@item.Id">Ekle</a>
+@*                                                    <input class="form-check-input mt-2" type="checkbox" asp-for="@item.IsEditable">
+                                                    <label class="form-check-label align-middle" asp-for="@item.IsEditable">Alışverişe Çıkıyorum</label>*@
+                                                @if(item.IsEditable == false)
+                                                {
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="UserProducts" class="icon" asp-controller="Product" asp-route-shoppinglistid="@item.Id">
+                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    </a>
+                                                }
                                                 </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            @if (item.IsEditable == true)
+                                            {
+                                                @using (Html.BeginForm("IsEditableToFalse", "ShoppingList", FormMethod.Post))
+                                                {
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-2 col-md-10">
+                                                            <input type="submit" asp-action="IsEditableToFalse" asp-controller="ShoppingList" value="Alışverişe Çıkıyorum" asp-route-id="@item.Id" class="btn  btn-primary" />
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @using (Html.BeginForm("IsEditableToTrue", "ShoppingList", FormMethod.Post))
+                                                {
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-2 col-md-10">
+                                                            <input type="submit" asp-action="IsEditableToTrue" asp-controller="ShoppingList" value="Alışverişe Tamamlandı" asp-route-id="@item.Id" class="btn  btn-primary" />
+                                                        </div>
+                                                    </div>
+                                                }
                                             }
                                         </td>
                                     </tr>

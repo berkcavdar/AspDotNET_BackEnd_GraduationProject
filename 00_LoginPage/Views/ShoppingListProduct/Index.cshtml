@@ -1,6 +1,9 @@
 ﻿@model ICollection<_00_LoginPage.ViewModeels.ShoppingListProductViewModel>
 
 <link rel="stylesheet" type="text/css" href="~/css/shoppingListProducts.css">
+<link rel="stylesheet" type="text/css" href="~/css/icon.css">
+<link rel="stylesheet" type="text/css" href="~/css/button.css">
+
 
 <div class="card mt-5">
     <div class="row">
@@ -8,30 +11,54 @@
             <div class="title">
                 <div class="row">
                     <div class="col"><h4><b>Alışveriş Listem</b></h4></div>
-                    <div class="col align-self-center text-right text-muted">@Model.Count Ürün</div>
+                    <div class="col align-self-center text-right text-muted">Ürün</div>
                 </div>
             </div>
             @foreach(var item in Model)
             {
                 <div class="row border-top border-bottom">
                     <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
+                        <div class="col-2"><img class="img-fluid" src="@Url.Content(item.ImageUrl)"></div>
                         <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">@item.Name</div>
+                            <div class="row text-muted">Ad</div>
+                            <div class="row">@Html.DisplayFor(modelItem => item.Name)</div>
                         </div>
                         <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
+                            <div class="row text-muted">Miktar</div>
+                            <div class="row">@item.Amount</div>
                         </div>
                         <div class="col">
-                            &euro; 44.00 <span class="close">
-                                @using (Html.BeginForm("Delete", "ShoppingListProduct", new { id = item.Id }, FormMethod.Post))
-                                {
-                                    <button type="submit" class="login100-form-btn">
-                                        &#10005;
-                                    </button>
+                            <div class="row text-muted">Fiyat</div>
+                            <div class="row">@item.Product.Price $</div> 
+                        </div>
+                        <div class="col">
+                            <div class="row text-muted">Açıklama</div>
+                            <div class="row">@item.Product.Description</div>
+                        </div>
+                        <div class="col">
+                            <div class="row text-muted">Kategori</div>
+                            <div class="row">@item.Product.Category.Name</div>
+                        </div>
+                        <div class="col">
+                        @if (item.IsAddedToCart == false)
+                        {
+                            @using (Html.BeginForm("IsAddedToTrue", "ShoppingListProduct", FormMethod.Post))
+                            {
+                                <input type="submit" asp-action="IsAddedToTrue" asp-controller="ShoppingListProduct" value="Aldım" asp-route-id="@item.Id" class="btn  btn-primary" />
                                 }
-                            </span>
+                            }
+                            else
+                            {
+                                <i class="fa fa-check icon" aria-hidden="true"></i>
+                            }
+                        </div>
+                        <div class="col ml-2">
+                            @using (Html.BeginForm("Delete", "ShoppingListProduct", new { id = item.Id }, FormMethod.Post))
+                            {
+                                <button type="submit" class="icon">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -39,26 +66,66 @@
             <div class="back-to-shop"><a asp-action="Index" asp-controller="ShoppingList">&leftarrow;</a><span class="text-muted">Alışveriş Listelerim</span></div>
         </div>
         <div class="col-md-4 summary">
-            <div><h5><b>Özet</b></h5></div>
+            <div><h5><b class="text-light">Filtrele</b></h5></div>
             <hr>
-            <div class="row">
-                <div class="col" style="padding-left:0;">ITEMS 3</div>
-                <div class="col text-right">&euro; 132.00</div>
-            </div>
-            <form asp-action="Index">
-                <p>Kategoriler</p>
-                <select><option class="text-muted">Seçiniz</option></select>
-                <p>Ürünleri Ara</p>
-                <input id="term" class="form-control" placeholder="Anahtar Kelime">
-                <button type="submit" class="btn btn-info">ara</button>
-            </form>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">Toplam Fiyat</div>
-                <div class="col text-right">&euro; 137.00</div>
-            </div>
-            <a asp-action="Update" asp-controller="ShoppingListProduct" class="btn">Değişikleri Kaydet</a>
-            <a asp-action="UserProducts" asp-controller="Product" class="btn">Ürün Ekle</a>
+                <p class="text-light">Ürünleri Ara</p>
+                <input type="text" placeholder="Anahtar kelime giriniz" id="searchingProduct"/>
+            <button onclick="onSearchProductClick()" class="button-70">Ara</button>
+            <hr>
+            <p class="text-light">Kategorileri Ara</p>
+            <input type="text" placeholder="Anahtar kelime giriniz" id="searchingCategory" />
+            <button onclick="onSearchCategoryClick()" class="button-70">Ara</button>
         </div>
     </div>
 
 </div>
+
+<script>
+
+    function onSearchProductClick() {
+        const input = document.getElementById("searchingProduct")
+        const queryParams = new URLSearchParams(window.location.search)
+        const shoppingListId = queryParams.get("shoppinglistid")
+
+        const url = new URL(window.location.href)
+        url.searchParams.set("searching",input.value)
+        window.location.href = url.href
+
+        //$.ajax({ 
+        //    type : "GET",
+        //    url: `/ShoppingListProduct/Index?shoppinglistid=${shoppingListId}&searching=${input.value}`,
+        //    success : function(response) {
+        //        document.open()
+        //        document.write(response)
+        //        document.close()
+        //    },
+        //    error : function(error) {
+        //        console.log(error)
+        //    }
+        //})
+    }
+
+    function onSearchCategoryClick() {
+        const input = document.getElementById("searchingCategory")
+        const queryParams = new URLSearchParams(window.location.search)
+        const shoppingListId = queryParams.get("shoppinglistid")
+
+        const url = new URL(window.location.href)
+        url.searchParams.set("category", input.value)
+        window.location.href = url.href
+
+        //$.ajax({
+        //    type : "GET",
+        //    url: `/ShoppingListProduct/Index?shoppinglistid=${shoppingListId}&searching=${input.value}`,
+        //    success : function(response) {
+        //        document.open()
+        //        document.write(response)
+        //        document.close()
+        //    },
+        //    error : function(error) {
+        //        console.log(error)
+        //    }
+        //})
+    }
+
+</script>

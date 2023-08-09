@@ -4,7 +4,10 @@ using _00_LoginPage.Models.InsertModel.Models;
 using _00_LoginPage.Models.UpdateModel.Models;
 using _00_LoginPage.ViewModeels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace _00_LoginPage.Controllers
 {
@@ -17,55 +20,101 @@ namespace _00_LoginPage.Controllers
             _userDbContext = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromQuery(Name = "shoppinglistid")] int shoppingListId, [FromQuery(Name ="searching")] string searching, [FromQuery(Name ="category")] string category)
         {
-
-            IReadOnlyList<ShoppingListProductViewModel> shoppingListProducts = _userDbContext.ShoppingListProducts.Select(x => new ShoppingListProductViewModel()
+            IReadOnlyList<ShoppingListProductViewModel> shoppingListProducts = _userDbContext.ShoppingListProducts.Where(x => x.ShoppingListId == shoppingListId)
+                .Select(x => new ShoppingListProductViewModel()
             {
                 Id = x.Id,
-                Name = x.Name,
                 Amount = x.Amount,
+                Name = x.Product.Name,
                 ImageUrl = x.Product.ImageUrl,
                 IsAddedToCart = x.IsAddedToCart,
                 ShoppingListId = x.ShoppingListId,
                 Product = new ProductViewModel()
                 {
                     Id = x.Id,
-                    Name = x.Name,
                     ImageUrl = x.Product.ImageUrl,
                     Color = x.Product.Color,
-                    Description = x.Product.Description,
+                    Description = x.Description,
                     Price = x.Product.Price,
                     Category = new CategoryViewModel()
                     {
+                        Name = x.Product.Category.Name,
                         Id = x.Id,
-                        Name = x.Name
                     }
                 }
+
             }).ToList();
+
+
+            if (!String.IsNullOrEmpty(searching))
+            {
+                shoppingListProducts = shoppingListProducts.Where(x => x.Name.ToLower().Contains(searching.ToLower())).ToList();
+            }
+
+            if(!String.IsNullOrEmpty(category))
+            {
+                shoppingListProducts = shoppingListProducts.Where(x => x.Product.Category.Name.ToLower().Contains(category.ToLower())).ToList();
+            }
 
             return View(shoppingListProducts);
 
         }
 
-        [HttpGet]
-        public IActionResult Create()
+        [HttpPost]
+        public ActionResult IsAddedToTrue(int id)
         {
-            ShoppingListProductInsertModel model = new ShoppingListProductInsertModel(); 
+            var isAddedTocart = _userDbContext.ShoppingListProducts.SingleOrDefault(x => x.Id == id);
+            isAddedTocart.IsAddedToCart = true;
+            _userDbContext.ShoppingListProducts.Update(isAddedTocart);
+            _userDbContext.SaveChanges();
+            return RedirectToAction(nameof(Index),new {shoppinglistid = isAddedTocart.ShoppingListId});
+        }
+
+        [HttpGet]
+        public IActionResult Create([FromQuery(Name ="productid")] int productId, [FromQuery(Name ="shoppinglistid")] int shoppingListId)
+        {
+            var model = new ShoppingListProductInsertModel() { ProductId = productId, ShoppingListId = shoppingListId};
+
+
+            if (model == null)
+            {
+                throw new NullReferenceException();
+            }
+
             return View(model);
         }
 
 
         [HttpPost]
-        public IActionResult Create(ShoppingListProductInsertModel input)
+        public IActionResult Create(ShoppingListProductInsertModel input, int id)
         {
+            var newShoppingListProducts = new ShoppingListProduct();
+            var isEditableCheck = _userDbContext.ShoppingLists.SingleOrDefault(x => x.Id == input.ShoppingListId);
 
-            var newShoppingListProducts = new ShoppingListProduct(input.ProductId, input.Amount, input.ShoppingListId, input.Description);
+            if (newShoppingListProducts == null)
+            {
+                throw new NullReferenceException();
+            }
 
-            _userDbContext.ShoppingListProducts.Add(newShoppingListProducts);
-            _userDbContext.SaveChanges();
+            if(isEditableCheck.IsEditable == true)
+            {
+                newShoppingListProducts.ShoppingListId = input.ShoppingListId;
+                newShoppingListProducts.Amount = input.Amount;
+                newShoppingListProducts.ProductId = input.ProductId;
+                newShoppingListProducts.Description = input.Description;
 
-            return RedirectToAction("Index");
+                _userDbContext.ShoppingListProducts.Add(newShoppingListProducts);
+                _userDbContext.SaveChanges();
+
+                return this.RedirectToAction("Index", new { shoppinglistid = input.ShoppingListId });
+            }
+            else
+            {
+                throw new Exception("İsteğiniz Reddedildi");
+            }
+
         }
 
 
@@ -111,7 +160,7 @@ namespace _00_LoginPage.Controllers
                 _userDbContext.SaveChanges();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new {shoppinglistid = shoppingListProductsCheck.ShoppingListId});
         }
     }
 }

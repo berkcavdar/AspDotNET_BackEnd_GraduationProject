@@ -2,6 +2,7 @@
     font-family: sans-serif;
     font-size: 0.8rem;
     font-weight: bold;
+    background:border-box lightblue;
 }
 
 .conatiner {
@@ -32,6 +33,7 @@
     width: 300px;
     height: 490px;
     text-align: center;
+    background-color:white;
     border-radius: 3px;
     -webkit-transition: 200ms ease-in-out;
     -o-transition: 200ms ease-in-out;

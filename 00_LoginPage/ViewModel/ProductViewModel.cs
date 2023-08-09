@@ -16,8 +16,6 @@ namespace _00_LoginPage.ViewModeels
         public string Amount { get; set; }
         public  CategoryViewModel Category { get; set; }
 
-        public int ShoppingListProductId { get; set; }
-
         public int ProductId { get; set; }
 
         public int ShoppingListId { get; set; }

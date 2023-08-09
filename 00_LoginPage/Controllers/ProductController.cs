@@ -50,12 +50,13 @@ namespace _00_LoginPage.Controllers
                                                            select new ProductViewModel()
                                                            {
                                                                Id = product.Id,
+                                                               ProductId = product.Id,
                                                                Name = product.Name,
                                                                Color = product.Color,
                                                                Description = product.Description,
                                                                ImageUrl = product.ImageUrl,
                                                                Price = product.Price,
-                                                               ShoppingListProductId = shoppinglistId,
+                                                               ShoppingListId = shoppinglistId,
                                                                Category = new CategoryViewModel()
                                                                {
                                                                    Name = product.Category.Name,

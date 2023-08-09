@@ -1,5 +1,5 @@
 ﻿body {
-    background: #ddd;
+    background: border-box lightblue;
     min-height: 100vh;
     vertical-align: middle;
     font-family: sans-serif;
@@ -41,7 +41,7 @@
 }
 
 .summary {
-    background-color: #ddd;
+    background-color: cornflowerblue;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
     padding: 4vh;
