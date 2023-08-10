@@ -8,19 +8,21 @@
     <div class="conatiner">
         <div class="wrap">
             <div class="box one m-5">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/012/024/324/small/a-person-using-a-smartphone-to-fill-out-a-registration-form-registration-register-fill-in-personal-data-use-the-application-vector.jpg" style="width: 300px; height: auto; border-radius: 10px;" />
                 <div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
                     <span class="label-input100">Açıklama</span>
                     <input class="input100" type="text" asp-for="Description" placeholder="Ürün Açıklaması" required>
                     <span class="focus-input100" data-symbol="&#xf1db;"></span>
                 </div>
-                <input class="input100 mt-5 text-center" type="number" asp-for="Amount" placeholder="Miktarı Giriniz" required>
+                <span class="label-input100">Miktar</span>
+                <input class="input100  text-center" type="number" asp-for="Amount" placeholder="Miktarı Giriniz" required>
                     <div class="container-login100-form-btn">
-                        <div class="wrap-login100-form-btn">
+                        <div class="wrap-login100-form-btn mt-3">
                             <div class="login100-form-bgbtn"></div>
                         @Html.HiddenFor( x => x.ProductId)
                         @Html.HiddenFor( x => x.ShoppingListId)
                         <button type="submit" class="login100-form-btn">
-                            <a asp-route-shoppinglistid="@Model.ShoppingListId">Oluştur</a>
+                            <a class="text-light" asp-route-shoppinglistid="@Model.ShoppingListId">Oluştur</a>
                         </button>
                         </div>
                         @if (!ViewData.ModelState.IsValid)
