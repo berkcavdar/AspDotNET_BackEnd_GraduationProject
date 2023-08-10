@@ -30,7 +30,7 @@ builder.Services.AddDbContext<ShoppingDbContext>(options =>
 
 Created Database diagram can be found below.
 
-![](https://imgur.com/a/ThZcWfT)
+![]([https://imgur.com/a/ThZcWfT](https://i.imgur.com/fPuxnry.png))
 
 ---
 
